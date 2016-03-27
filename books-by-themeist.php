@@ -40,6 +40,9 @@ class Themeist_Books {
 
 		/* Load post types. */
 		require_once( THEMIST_BOOKS_DIR . 'post-types.php' );
+
+		/* Custom Metabox for this theme */
+		require_once( THEMIST_BOOKS_DIR . 'custom-metabox.php' );
 	}
 
 	/**

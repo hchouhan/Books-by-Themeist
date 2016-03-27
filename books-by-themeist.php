@@ -5,7 +5,7 @@
  * Text Domain: books-by-themeist
  * Domain Path: /languages
  * Description: Books CPT for theme developers to use in their client projects
- * Version: 0.1
+ * Version: 0.1.1
  * Author: Harish Chouhan
  * Author URI: http://www.dreamsmedia.in
  */

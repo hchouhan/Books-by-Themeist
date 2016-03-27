@@ -2,8 +2,8 @@ sudo: false
 language: php
 
 notifications:
-  on_success: never
-  on_failure: change
+ # on_success: never
+ # on_failure: change
 
 php:
   - nightly # PHP 7.0
@@ -22,8 +22,6 @@ before_script:
   - git clone https://github.com/Seravo/wordpress-test-template wp-tests
   - bash wp-tests/bin/install-wp-tests.sh test root '' localhost $WP_VERSION
 
-script:
-  - cd wp-tests/spec && bundle exec rspec test.rb
 
 # Receive notifications for build results.
 # @link http://docs.travis-ci.com/user/notifications/#Email-notifications

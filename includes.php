@@ -47,7 +47,7 @@ function themeist_books_get_details() {
 
 	$book_publisher = get_post_meta( get_the_ID(), '_book_publisher', true);
 	$book_publisher_url = get_post_meta( get_the_ID(), '_book_publisher_website', true);
-	$book_retailers = get_post_meta( get_the_ID(), '_book_retailers', true );
+	$book_retailer = get_post_meta( get_the_ID(), '_book_retailer', true );
 
 
 	if ( '' !=  $book_publisher || array_filter($retailers) ) {
@@ -69,14 +69,14 @@ function themeist_books_get_details() {
 
 		}
 
-		// if (!empty($retailers_array)) {
-		if (array_filter($book_retailers)) {
+		if (!empty($book_retailer)) {
+		//if (array_filter($book_retailer)) {
 
-			$book_details .= '<h2 class="book-details-title">You can purchase this book online at: </h2>';
+			$book_details .= '<h4 class="book-details-title">You can purchase this book online at: </h4>';
 
 			$book_details .= '<ul>';
 
-			foreach ( (array) $book_retailers as $key => $entry ) {
+			foreach ( (array) $book_retailer as $key => $entry ) {
 
 				$name = $url = $logo  = '';
 

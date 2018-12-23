@@ -2,13 +2,13 @@
 /**
  * Custom Meta Boxes
  *
- * @link https://github.com/WebDevStudios/Custom-Metaboxes-and-Fields-for-WordPress
+ * @link https://github.com/CMB2/CMB2
  * @category Books by Themeist
  * @package  Metaboxes
  * @license  http://www.opensource.org/licenses/gpl-license.php GPL v2.0 (or later)
- * @link     https://github.com/webdevstudios/Custom-Metaboxes-and-Fields-for-WordPress
+ * @link     https://github.com/CMB2/CMB2
  *
- * @since 0.1.1
+ * @since 0.1
  */
 
 /**
@@ -18,73 +18,102 @@
  * @param  array $meta_boxes
  * @return array
  */
-function books_by_themeist_custom_metabox( array $meta_boxes ) {
+add_action( 'cmb2_admin_init', 'books_by_themeist_custom_metabox' );
+function books_by_themeist_custom_metabox( ) {
 
 	// Start with an underscore to hide fields from custom fields list
 	$prefix = '_book_';
 
 	/**
-	 * Custom Heading & Sub Heading
+	 * Initiate the metabox
 	 */
-	$meta_boxes['metabox_heading'] = array(
-		'id'         => 'book_details',
-		'title'      => __( 'Book Details', 'books-by-themeist' ),
-		'pages'      => array( 'books', ), // Post type
-		'context'    => 'normal',
-		'priority'   => 'high',
-		'show_names' => true, // Show field names on the left
-		// 'cmb_styles' => true, // Enqueue the CMB stylesheet on the frontend
-		'fields'     => array(
-			array(
-				'name' => __( 'Publisher Name', 'books-by-themeist' ),
-				'desc' => __( 'Enter Publishers Name', 'books-by-themeist' ),
-				'id'   => $prefix . 'publisher',
-				'type' => 'text',
-			),
-			array(
-				'name' => __( 'Publisher Website', 'books-by-themeist' ),
-				'desc' => __( 'Enter Publishers Website URL', 'books-by-themeist' ),
-				'id'   => $prefix . 'publisher_website',
-				'type' => 'text_url',
-			),
+	$cmb = new_cmb2_box( array(
+		'id'            => 'book_details',
+		'title'         => __( 'Book Details', 'books-by-themeist' ),
+		'object_types'  => array( 'books', ), // Post type
+		'context'       => 'normal',
+		'priority'      => 'high',
+		'show_names'    => true, // Show field names on the left
+		// 'cmb_styles' => false, // false to disable the CMB stylesheet
+		// 'closed'     => true, // Keep the metabox closed by default
+	) );
 
-			array(
-				'id' => $prefix . 'retailers',
-				'type' => 'group',
-				'description' => __( 'List of Retailers', 'books-by-themeist' ),
-				'options' => array(
-					'group_title'   => __( 'Retailer {#}', 'books-by-themeist' ), // since version 1.1.4, {#} gets replaced by row number
-					'add_button'    => __( 'Add Another Retailer', 'books-by-themeist' ),
-					'remove_button' => __( 'Remove Retailer', 'books-by-themeist' ),
-					'sortable'      => true, // beta
-				),
-				// Fields array works the same, except id's only need to be unique for this group. Prefix is not needed.
-				'fields'      => array(
-					array(
-						'name' => __( 'Retailer Name', 'books-by-themeist' ),
-						'id'   => 'name',
-						'type' => 'text',
-					),
-					array(
-						'name' => __( 'Purchase URL', 'books-by-themeist' ),
-						'id'   => 'url',
-						'type' => 'text_url',
-					),
-/*					array(
-						'name' => __( 'Retailer Logo', 'books-by-themeist' ),
-						'id'   => 'logo',
-						'type' => 'file',
-					),*/
-				),
-			),
-			// How to output the data can be found at https://github.com/WebDevStudios/Custom-Metaboxes-and-Fields-for-WordPress/wiki/Field-Types#group
-		),
-	);
+	// Regular text field
+	$cmb->add_field( array(
+		'name'       => __( 'Publisher Name', 'books-by-themeist' ),
+		'desc'       => __( 'Enter Publishers Name', 'books-by-themeist' ),
+		'id'         => $prefix . 'publisher',
+		'type'       => 'text',
+		'show_on_cb' => 'cmb2_hide_if_no_cats', // function should return a bool value
+		// 'sanitization_cb' => 'my_custom_sanitization', // custom sanitization callback parameter
+		// 'escape_cb'       => 'my_custom_escaping',  // custom escaping callback parameter
+		// 'on_front'        => false, // Optionally designate a field to wp-admin only
+		// 'repeatable'      => true,
+	) );
 
-	return $meta_boxes;
+	// URL text field
+	$cmb->add_field( array(
+		'name' => __( 'Publisher Website', 'books-by-themeist' ),
+		'desc' => __( 'Enter Publishers Website URL', 'books-by-themeist' ),
+		'id'   => $prefix . 'publisher_website',
+		'type' => 'text_url',
+		// 'protocols' => array('http', 'https', 'ftp', 'ftps', 'mailto', 'news', 'irc', 'gopher', 'nntp', 'feed', 'telnet'), // Array of allowed protocols
+		// 'repeatable' => true,
+	) );
 
 }
-add_filter( 'cmb_meta_boxes', 'books_by_themeist_custom_metabox' );
 
+/**
+ * Hook in and add a metabox to demonstrate repeatable grouped fields
+ */
+add_action( 'cmb2_admin_init', 'books_by_themeist_custom_metabox_retailers' );
+function books_by_themeist_custom_metabox_retailers() {
+	$prefix = '_book_';
+	/**
+	 * Repeatable Field Groups
+	 */
+	$cmb_group = new_cmb2_box( array(
+		'id'           => $prefix . 'retailers',
+		'title'        => esc_html__( 'List of Retailers', 'books-by-themeist' ),
+		'object_types' => array( 'books' ),
+	) );
+	// $group_field_id is the field id string, so in this case: $prefix . 'demo'
+	$group_field_id = $cmb_group->add_field( array(
+		'id'          => $prefix . 'retailer',
+		'type'        => 'group',
+		//'description' => esc_html__( 'Generates reusable form entries', 'cmb2' ),
+		'options'     => array(
+			'group_title'   => esc_html__( 'Retailer {#}', 'cmb2' ), // {#} gets replaced by row number
+			'add_button'    => esc_html__( 'Add Another Retailer', 'cmb2' ),
+			'remove_button' => esc_html__( 'Remove Retailer', 'cmb2' ),
+			'sortable'      => true,
+			// 'closed'     => true, // true to have the groups closed by default
+		),
+	) );
+
+	/**
+	 * Group fields works the same, except ids only need
+	 * to be unique to the group. Prefix is not needed.
+	 *
+	 * The parent field's id needs to be passed as the first argument.
+	 */
+	$cmb_group->add_group_field( $group_field_id, array(
+		'name' => esc_html__( 'Retailer Name', 'cmb2' ),
+		'id' => 'name',
+		'type' => 'text',
+	) );
+
+	$cmb_group->add_group_field( $group_field_id, array(
+		'name' => esc_html__( 'Purchase URL', 'cmb2' ),
+		'id' => 'url',
+		'type' => 'text_url',
+	) );
+
+	$cmb_group->add_group_field( $group_field_id, array(
+		'name' => esc_html__( 'Retailer Logo', 'cmb2' ),
+		'id' => 'logo',
+		'type' => 'file',
+	) );
+}
 
 ?>

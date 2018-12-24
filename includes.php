@@ -30,7 +30,8 @@ function themeist_books_pre_get_posts( $query ) {
 }
 
 function themeist_books_add_after_post_content($content) {
-	if(!is_feed() && !is_home() && is_singular() && is_main_query()) {
+	//if(!is_feed() && !is_home() && is_singular() && is_main_query()) {
+	if (is_singular( 'books' )) {
 		$content .= themeist_books_get_details();
 	}
 	return $content;

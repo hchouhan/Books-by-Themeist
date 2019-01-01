@@ -1,14 +1,21 @@
 <?php
-/**
- * Plugin Name: Books by Themeist
- * Plugin URI: http://themeist.co
- * Text Domain: books-by-themeist
- * Domain Path: /languages
- * Description: Books CPT for theme developers to use in their client projects
- * Version: 0.1.1
- * Author: Harish Chouhan
- * Author URI: http://www.dreamsmedia.in
+/*
+ * Plugin Name:       Books by Themeist
+ * Plugin URI:        https://github.com/webtions/books-by-themeist/#utm_source=wp-plugin&utm_medium=i-recommend-this&utm_campaign=plugins-page
+ * Description:       Adds Book post type for theme developers to use in their client projects
+ * Version:           0.0.1
+ * Author:            Harish Chouhan, Themeist
+ * Author URI:        https://themeist.com/
+ * Author Email:      support@themeist.com
+ * Text Domain:       books-by-themeist
+ * License:           GPL-3.0
+ * License URI:       http://www.gnu.org/licenses/gpl-3.0.txt
+ * Domain Path:       /languages
  */
+
+if ( ! defined( 'WPINC' ) ) {
+	die;
+}
 
 class Themeist_Books {
 

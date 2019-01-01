@@ -3,7 +3,7 @@
  * Plugin Name:       Books by Themeist
  * Plugin URI:        https://github.com/webtions/books-by-themeist/#utm_source=wp-plugin&utm_medium=i-recommend-this&utm_campaign=plugins-page
  * Description:       Adds Book post type for theme developers to use in their client projects
- * Version:           0.1.1
+ * Version:           0.1.2
  * Author:            Harish Chouhan, Themeist
  * Author URI:        https://themeist.com/
  * Author Email:      support@themeist.com

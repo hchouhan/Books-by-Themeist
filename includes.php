@@ -73,7 +73,7 @@ function themeist_books_get_details() {
 		if (!empty($book_retailer)) {
 		//if (array_filter($book_retailer)) {
 
-			$book_details .= '<h4 class="book-details-title">You can purchase this book online at: </h4>';
+			$book_details .= '<h2 class="book-details-title">You can purchase this book online at: </h2>';
 
 			$book_details .= '<ul>';
 

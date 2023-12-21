@@ -15,8 +15,8 @@ function themeist_books_pre_get_posts( $query ) {
 		return $query;
 	elseif ( $query->is_main_query() && is_post_type_archive( 'books' ) ) {
 		$query->set( 'posts_per_page', -1 );
-		$query->set( 'orderby', 'title' );
-		$query->set( 'order', 'asc' );
+		$query->set( 'orderby', 'date' );
+		$query->set( 'order', 'desc' );
 	}
 
 	return $query;

@@ -9,10 +9,11 @@ function themeist_register_book_post_types() {
 		array(
 			'public' => 		true,
 			'publicly_queryable' =>	true,
+			'show_in_rest' => true,
 			'show_in_nav_menus' =>	true,
 			'show_in_admin_bar' => 	true,
 			'exclude_from_search' =>	false,
-			'hierarchical' => 		false,
+			'hierarchical' => 		true,
 			'show_ui' => true,
 
 			'has_archive' =>		 'books',
